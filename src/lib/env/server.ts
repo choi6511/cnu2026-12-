@@ -2,7 +2,7 @@ import "server-only";
 
 export type ServerEnvironment = Readonly<{
   supabaseSecretKey: string | undefined;
-  octoparseApiKey: string | undefined;
+  apifyApiToken: string | undefined;
 }>;
 
 /**
@@ -12,6 +12,6 @@ export type ServerEnvironment = Readonly<{
 export function getServerEnvironment(): ServerEnvironment {
   return {
     supabaseSecretKey: process.env.SUPABASE_SECRET_KEY,
-    octoparseApiKey: process.env.OCTOPARSE_API_KEY,
+    apifyApiToken: process.env.APIFY_API_TOKEN,
   };
 }
