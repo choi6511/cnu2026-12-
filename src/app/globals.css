@@ -1076,9 +1076,34 @@ button.collection-slot:hover {
   box-shadow: 0 12px 0 var(--navy-900), var(--shadow-md);
 }
 
+.pwa-install-dismiss {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  display: grid;
+  width: 36px;
+  min-height: 36px !important;
+  padding: 0;
+  place-items: center;
+  border: 0 !important;
+  border-radius: 50% !important;
+  color: var(--text-muted) !important;
+  background: transparent !important;
+  font-size: 1.75rem;
+  font-weight: 500 !important;
+  line-height: 1;
+}
+
+.pwa-install-dismiss:hover,
+.pwa-install-dismiss:focus-visible {
+  color: var(--navy-900) !important;
+  background: var(--teal-050) !important;
+}
+
 .pwa-install-prompt > div {
   display: grid;
   gap: 5px;
+  padding-right: 32px;
 }
 
 .pwa-install-prompt strong {

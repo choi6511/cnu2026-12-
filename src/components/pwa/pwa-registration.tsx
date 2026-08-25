@@ -129,12 +129,20 @@ export function PwaRegistration() {
     setIsInstallHintDismissed(true);
   }
 
-  if (isInstalled || (!installPrompt && (!isIos || isInstallHintDismissed))) {
+  if (isInstalled || isInstallHintDismissed || (!installPrompt && !isIos)) {
     return null;
   }
 
   return (
     <aside className="pwa-install-prompt" aria-label="앱 설치 안내">
+      <button
+        className="pwa-install-dismiss"
+        type="button"
+        aria-label="앱 설치 안내 닫기"
+        onClick={dismissInstallHint}
+      >
+        <span aria-hidden="true">×</span>
+      </button>
       <div>
         <p className="eyebrow">APP INSTALL</p>
         <strong>차차 캠퍼스를 홈 화면에 추가하세요</strong>
