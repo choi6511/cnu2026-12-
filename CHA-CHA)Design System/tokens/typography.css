@@ -1,0 +1,20 @@
+:root{
+  --text-2xs:11px; --text-xs:12px; --text-sm:14px; --text-base:16px;
+  --text-lg:18px; --text-xl:20px; --text-2xl:24px; --text-3xl:30px;
+  --text-4xl:36px; --text-5xl:48px; --text-6xl:64px; --text-7xl:80px;
+
+  --leading-tight:1.15; --leading-snug:1.3; --leading-normal:1.5; --leading-loose:1.75;
+  --tracking-tight:-0.01em; --tracking-normal:0; --tracking-wide:0.06em; --tracking-caps:0.12em;
+
+  --weight-light:300; --weight-regular:400; --weight-medium:500; --weight-bold:700; --weight-black:800;
+
+  /* Role tokens */
+  --type-display:var(--weight-regular) var(--text-6xl)/var(--leading-tight) var(--font-display);
+  --type-title:var(--weight-black) var(--text-4xl)/var(--leading-snug) var(--font-core);
+  --type-heading:var(--weight-bold) var(--text-2xl)/var(--leading-snug) var(--font-core);
+  --type-subhead:var(--weight-bold) var(--text-lg)/var(--leading-snug) var(--font-core);
+  --type-body:var(--weight-regular) var(--text-base)/var(--leading-loose) var(--font-core);
+  --type-body-sm:var(--weight-regular) var(--text-sm)/var(--leading-normal) var(--font-core);
+  --type-label:var(--weight-bold) var(--text-xs)/1 var(--font-latin);
+  --type-caption:var(--weight-medium) var(--text-xs)/var(--leading-normal) var(--font-core);
+}

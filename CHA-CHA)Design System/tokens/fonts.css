@@ -1,0 +1,11 @@
+/* Webfonts — Google Fonts substitutions for the brand sheet's original faces.
+   See readme.md > "Font substitutions". Loaded from Google's CDN (self-host for production). */
+@import url("https://fonts.googleapis.com/css2?family=Jua&family=Gothic+A1:wght@300;400;500;700;800&family=Nunito:wght@400;600;700;800&display=swap");
+
+:root{
+  --font-display:"Jua","Nunito","Apple SD Gothic Neo",sans-serif;
+  --font-core:"Gothic A1","Nunito","Apple SD Gothic Neo",sans-serif;
+  --font-latin:"Nunito","Gothic A1",sans-serif;
+  /* System mono stack — documentation only (hex codes, token names). Not a brand face, so no webfont. */
+  --font-mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace;
+}

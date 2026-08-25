@@ -1,0 +1,12 @@
+:root{
+  --dur-fast:120ms;   /* @kind other */
+  --dur-base:180ms;   /* @kind other */
+  --dur-slow:280ms;   /* @kind other */
+  --dur-bounce:420ms; /* @kind other */
+  --ease-standard:cubic-bezier(0.2,0.8,0.2,1); /* @kind other */
+  --ease-out:cubic-bezier(0,0,0.2,1);          /* @kind other */
+  --ease-in-out:cubic-bezier(0.4,0,0.2,1);     /* @kind other */
+  --ease-bounce:cubic-bezier(0.34,1.56,0.64,1); /* @kind other */
+  --hover-lift:translateY(-2px); /* @kind other */
+  --press-scale:scale(0.97);     /* @kind other */
+}

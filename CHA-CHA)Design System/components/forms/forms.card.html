@@ -1,0 +1,36 @@
+<!-- @dsCard group="Components" viewport="700x360" name="Forms — Field, Input, Select, Checkbox, Radio, Switch" subtitle="14px fields, teal focus ring, 2px navy controls" -->
+<!DOCTYPE html><html lang="ko"><head><meta charset="utf-8"><link rel="stylesheet" href="../../styles.css"><style>html,body{margin:0}body{background:var(--white);font-family:var(--font-core);color:var(--text-strong);padding:20px 24px;box-sizing:border-box;height:360px}a{color:var(--teal-500)}a:hover{color:var(--teal-700)}.stack{display:flex;flex-direction:column;gap:16px}.row{display:flex;align-items:center;gap:12px;flex-wrap:wrap}.n{font-family:var(--font-mono),monospace;font-size:11px;color:var(--text-muted)}</style>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script src="../../_ds_bundle.js"></script></head><body><div id="root"></div>
+<script type="text/babel">
+const NS = window.CHACHADesignSystem_c46830;
+const { Field, Input, Select, Checkbox, Radio, Switch } = NS;
+function Demo(){
+  const [on, setOn] = React.useState(true);
+  return <div className="stack">
+    <div className="row" style={{alignItems:"flex-start", gap:20}}>
+      <Field label="이름" hint="실명을 입력하세요" htmlFor="a" required><Input id="a" placeholder="차차" /></Field>
+      <Field label="이메일" error="올바른 형식이 아닙니다" htmlFor="b"><Input id="b" invalid defaultValue="chacha@" /></Field>
+      <Field label="파일 형식" htmlFor="c"><Select id="c" placeholder="선택" options={["PNG","SVG","AI"]} /></Field>
+    </div>
+    <div className="row" style={{gap:14}}>
+      <Input size="sm" placeholder="Small 32px" style={{width:150}} />
+      <Input placeholder="Medium 40px" style={{width:170}} />
+      <Input size="lg" placeholder="Large 48px" style={{width:190}} />
+      <Input disabled placeholder="비활성" style={{width:120}} />
+    </div>
+    <div className="row" style={{gap:26}}>
+      <Checkbox label="가이드에 동의" defaultChecked />
+      <Checkbox label="미선택" />
+      <Checkbox label="비활성" disabled />
+      <Radio name="r" label="PNG" defaultChecked />
+      <Radio name="r" label="SVG" />
+      <Switch label="투명 배경" checked={on} onChange={e=>setOn(e.target.checked)} />
+    </div>
+    <span className="n">--radius-field 14px · --shadow-inset-field · focus --shadow-focus</span>
+  </div>;
+}
+ReactDOM.createRoot(document.getElementById("root")).render(<Demo />);
+</script></body></html>

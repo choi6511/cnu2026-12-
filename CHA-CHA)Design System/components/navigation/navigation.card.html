@@ -1,0 +1,20 @@
+<!-- @dsCard group="Components" viewport="700x200" name="Navigation — Tabs" subtitle="Capsule pills for brand pages, teal underline for app views" -->
+<!DOCTYPE html><html lang="ko"><head><meta charset="utf-8"><link rel="stylesheet" href="../../styles.css"><style>html,body{margin:0}body{background:var(--white);font-family:var(--font-core);color:var(--text-strong);padding:20px 24px;box-sizing:border-box;height:200px}a{color:var(--teal-500)}a:hover{color:var(--teal-700)}.stack{display:flex;flex-direction:column;gap:16px}.row{display:flex;align-items:center;gap:12px;flex-wrap:wrap}.n{font-family:var(--font-mono),monospace;font-size:11px;color:var(--text-muted)}</style>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script src="../../_ds_bundle.js"></script></head><body><div id="root"></div>
+<script type="text/babel">
+const NS = window.CHACHADesignSystem_c46830;
+const { Tabs } = NS;
+function Demo(){
+  const [a, setA] = React.useState("표정");
+  const [b, setB] = React.useState("all");
+  return <div className="stack">
+    <Tabs items={["표정","포즈","360°","로고"]} value={a} onChange={setA} />
+    <Tabs variant="underline" value={b} onChange={setB} items={[{value:"all",label:"전체",count:19},{value:"pose",label:"포즈",count:4},{value:"face",label:"표정",count:6}]} />
+    <span className="n">Tabs · variant="pill" | "underline"</span>
+  </div>;
+}
+ReactDOM.createRoot(document.getElementById("root")).render(<Demo />);
+</script></body></html>

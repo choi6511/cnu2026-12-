@@ -1,0 +1,61 @@
+:root{
+  /* --- Brand palette (exact values from the 차차 brand sheet) --- */
+  --navy-900:#002D72;   /* 로고 / 아웃라인 / 본문 */
+  --teal-500:#009AB0;   /* 포인트 컬러 */
+  --teal-200:#7ED5D8;   /* 서브 포인트 */
+  --gray-050:#F5F5F5;   /* 배경 */
+  --blush-200:#FFD6D6;  /* 볼터치 / 강조 */
+
+  /* --- Extended ramp (derived from the five brand values) --- */
+  --navy-800:#0A3D8F;
+  --navy-700:#1B5AA8;
+  --navy-100:#D6E0F0;
+  --navy-050:#EEF3FA;
+  --navy-000:#F7FAFD;
+  --teal-700:#007285;
+  --teal-600:#00889C;
+  --teal-100:#B9E6E9;
+  --teal-050:#EAF7F8;
+  --blush-400:#FFB3B3;
+  --blush-600:#F58F8F;
+  --cream-100:#F7F1E2;  /* 마스코트 얼굴 톤 */
+  --gray-200:#E6E8EC;
+  --gray-400:#A8B0BD;
+  --gray-600:#6B7484;
+  --white:#FFFFFF;
+
+  /* --- Semantic aliases --- */
+  --text-strong:var(--navy-900);
+  --text-body:var(--navy-800);
+  --text-muted:var(--gray-600);
+  --text-accent:var(--teal-500);
+  --text-on-dark:var(--white);
+  --text-on-accent:var(--white);
+
+  --surface-page:var(--gray-050);
+  --surface-card:var(--white);
+  --surface-sunken:var(--navy-050);
+  --surface-accent:var(--teal-050);
+  --surface-inverse:var(--navy-900);
+  --surface-cream:var(--cream-100);
+
+  --border-hairline:var(--gray-200);
+  --border-strong:var(--navy-900);
+  --border-accent:var(--teal-200);
+  --border-dashed:var(--teal-200);
+
+  --action-primary:var(--navy-900);
+  --action-primary-hover:var(--navy-800);
+  --action-primary-active:#00204F;
+  --action-accent:var(--teal-500);
+  --action-accent-hover:var(--teal-600);
+  --action-accent-active:var(--teal-700);
+  --action-disabled:var(--gray-200);
+  --action-disabled-text:var(--gray-400);
+  --focus-ring:var(--teal-500);
+
+  --status-info:var(--teal-500);
+  --status-success:#0FA97E;
+  --status-warning:#E8A33C;
+  --status-danger:#E05A55;
+}
