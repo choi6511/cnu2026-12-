@@ -17,9 +17,9 @@ export type Place<Id extends PlaceId = PlaceId> = Readonly<{
   introduction: readonly [string, ...string[]];
   locationDescription: string;
   placeImageAlt: string;
-  placeImageStatus: "placeholder";
+  placeImageStatus: "placeholder" | "provided";
   noticeSourceUrl: `https://${string}`;
-  placeImagePath: `/places/${Id}.webp`;
+  placeImagePath: `/places/${Id}.jpg`;
   characterImagePath: `/characters/${Id}.webp`;
 }>;
 
@@ -42,10 +42,10 @@ export const PLACES = [
     ],
     locationDescription:
       "대덕캠퍼스 중앙에 있는 N1 건물입니다. 대학본부와 농업생명과학대학 사이의 도서관 인근 정류장을 기준으로 찾을 수 있습니다.",
-    placeImageAlt: "충남대학교 중앙도서관 임시 대표 이미지",
-    placeImageStatus: "placeholder",
+    placeImageAlt: "충남대학교 중앙도서관 전경",
+    placeImageStatus: "provided",
     noticeSourceUrl: "https://library.cnu.ac.kr/bbs/list/1",
-    placeImagePath: "/places/library.webp",
+    placeImagePath: "/places/library.jpg",
     characterImagePath: "/characters/library.webp",
   }),
   definePlace({
@@ -59,10 +59,10 @@ export const PLACES = [
     ],
     locationDescription:
       "대덕캠퍼스 E1-1 건물입니다. 정심화국제문화회관과 가까운 국제교류본부·국제언어교육센터 건물에서 찾을 수 있습니다.",
-    placeImageAlt: "충남대학교 국제언어교육센터 임시 대표 이미지",
-    placeImageStatus: "placeholder",
+    placeImageAlt: "충남대학교 국제언어교육센터 전경",
+    placeImageStatus: "provided",
     noticeSourceUrl: "https://dream.cnu.ac.kr/bbs/list.php?wcode=02",
-    placeImagePath: "/places/language-center.webp",
+    placeImagePath: "/places/language-center.jpg",
     characterImagePath: "/characters/language-center.webp",
   }),
   definePlace({
@@ -76,10 +76,10 @@ export const PLACES = [
     ],
     locationDescription:
       "대덕캠퍼스 서쪽의 W1 건물입니다. 교내 순환버스 산학연교육연구관 앞 정류장과 가까운 곳에서 찾을 수 있습니다.",
-    placeImageAlt: "충남대학교 산학연교육연구관 임시 대표 이미지",
-    placeImageStatus: "placeholder",
+    placeImageAlt: "충남대학교 산학연교육연구관 전경",
+    placeImageStatus: "provided",
     noticeSourceUrl: "https://iuc.cnu.ac.kr/iuc/customer/notice.do",
-    placeImagePath: "/places/industry-center.webp",
+    placeImagePath: "/places/industry-center.jpg",
     characterImagePath: "/characters/industry-center.webp",
   }),
 ] as const satisfies readonly Place[];
