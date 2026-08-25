@@ -216,9 +216,9 @@
 ### 9.1 실행 방식
 
 - 해커톤 MVP에서는 자동 예약을 사용하지 않고 운영자가 필요할 때 수동으로 갱신한다.
-- 운영자는 Codex에 `공지 갱신해줘`라고 요청해 Octoparse 작업 세 개를 시작하고, 완료된 결과를 Supabase에 반영한다.
-- Octoparse 화면에서 작업을 직접 시작한 경우에는 완료 후 Codex에 `완료된 공지를 Supabase에 반영해줘`라고 요청할 수 있다.
-- 일반 앱 사용자에게 공지 갱신 버튼, Octoparse API key 또는 Supabase secret key를 노출하지 않는다.
+- 운영자는 Codex에 `공지 갱신해줘`라고 요청해 Apify Actor 실행 세 개를 시작하고, 완료된 결과를 Supabase에 반영한다.
+- Apify Console에서 Actor를 직접 실행한 경우에는 완료 후 Codex에 `완료된 공지를 Supabase에 반영해줘`라고 요청할 수 있다.
+- 일반 앱 사용자에게 공지 갱신 버튼, Apify API token 또는 Supabase secret key를 노출하지 않는다.
 - 발표 전 수동 갱신을 한 번 실행하고 출처별 수집 개수와 Supabase 저장 표본을 확인한다.
 - 자동 갱신과 Vercel Cron은 MVP 이후 선택 기능이며 이번 해커톤 완료 조건에 포함하지 않는다.
 
@@ -236,23 +236,23 @@
 
 ### 9.3 크롤러 구조
 
-세 홈페이지의 HTML 구조가 서로 다르므로 Octoparse에 출처별 작업 세 개를 둔다.
+세 홈페이지의 HTML 구조가 서로 다르므로 Apify에 출처별 Actor 실행 구성 세 개를 둔다.
 
 - `library`
 - `language-center`
 - `industry-center`
 
-각 작업은 제목, 게시일, 원문 URL을 추출한다. Codex는 Octoparse 결과를 동일한 `NoticeInput[]` 형식으로 검증·정규화한 뒤 Supabase 플러그인으로 저장한다. 앱 코드가 학교 홈페이지 HTML을 직접 요청하거나 파싱하지 않는다.
+각 Actor 실행은 제목, 게시일, 원문 URL을 추출한다. Codex는 Apify 결과를 동일한 `NoticeInput[]` 형식으로 검증·정규화한 뒤 Supabase 플러그인으로 저장한다. 앱 코드가 학교 홈페이지 HTML을 직접 요청하거나 파싱하지 않는다.
 
 크롤링 규칙:
 
-- Octoparse Cloud 작업 또는 연결된 Octoparse 플러그인에서만 외부 홈페이지를 요청한다.
+- Apify Actor 또는 연결된 Apify MCP에서만 외부 홈페이지를 요청한다.
 - 갱신은 운영자가 명시적으로 요청할 때만 실행한다.
 - 상대 링크는 절대 URL로 변환한다.
 - 게시일을 `Asia/Seoul` 기준 날짜로 정규화한다.
 - 세 작업의 성공·실패는 출처별로 독립 처리한다.
 - 한 사이트 실패가 다른 사이트의 갱신을 막지 않아야 한다.
-- Octoparse 실행 오류, 결과 검증 오류, DB 오류를 구분해 기록한다.
+- Apify 실행 오류, 결과 검증 오류, DB 오류를 구분해 기록한다.
 
 ### 9.4 최근 7일 규칙
 
@@ -310,7 +310,7 @@ Supabase는 공지와 크롤링 실행 상태만 저장한다. 사용자 정보�
 - 공개 클라이언트에는 최근 공지와 성공 갱신 시각을 읽는 SELECT만 허용한다.
 - INSERT, UPDATE, DELETE는 공개 클라이언트에 허용하지 않는다.
 - 쓰기는 연결된 Supabase 플러그인 또는 서버 전용 Supabase secret key로만 수행한다.
-- Supabase secret key와 Octoparse API key는 절대 `NEXT_PUBLIC_` 환경변수로 만들지 않는다.
+- Supabase secret key와 Apify API token은 절대 `NEXT_PUBLIC_` 환경변수로 만들지 않는다.
 - 프런트엔드에는 Supabase URL과 publishable key만 노출할 수 있다.
 - 새 프로젝트의 Data API 자동 노출 설정에 따라 필요한 `GRANT SELECT`와 RLS 정책을 명시적으로 확인한다.
 
@@ -375,8 +375,8 @@ type CollectionRecord = {
 ### 서버
 
 - 공개 앱은 Supabase에서 공지를 읽기만 한다.
-- 공지 HTML 추출은 앱 서버가 아니라 Octoparse 작업 세 개가 담당한다.
-- 수동 갱신 시 Codex가 Octoparse 결과를 검증·정규화하고 Supabase 플러그인으로 반영한다.
+- 공지 HTML 추출은 앱 서버가 아니라 Apify Actor 실행 세 개가 담당한다.
+- 수동 갱신 시 Codex가 Apify 결과를 검증·정규화하고 Supabase 플러그인으로 반영한다.
 - 자동 갱신용 Route Handler와 Vercel Cron은 MVP에서 만들지 않는다.
 
 ### 환경변수
@@ -387,7 +387,7 @@ type CollectionRecord = {
 | `NEXT_PUBLIC_SUPABASE_URL` | 공개 | Supabase 프로젝트 URL |
 | `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` | 공개 | 공지 읽기 |
 | `SUPABASE_SECRET_KEY` | 비공개 | 앱 서버에서 수동 import를 만들 때만 사용하는 DB 쓰기 키 |
-| `OCTOPARSE_API_KEY` | 비공개 | Octoparse 연결 또는 수동 작업 실행 |
+| `APIFY_API_TOKEN` | 비공개 | Apify MCP 연결 또는 수동 Actor 실행 |
 
 비밀값은 `.env.local`과 Vercel 환경변수에만 저장하고 GitHub에 커밋하지 않는다. `.env.example`에는 값 없이 변수명만 기록한다.
 
@@ -458,7 +458,7 @@ type CollectionRecord = {
 7. 나머지 두 장소도 각각 다른 캐릭터를 지급한다.
 8. 네트워크를 끊었을 때 장소 소개와 도감이 열린다.
 9. 네트워크를 끊었을 때 지도와 공지는 안내 화면을 표시한다.
-10. 수동 갱신에서 한 Octoparse 작업을 실패시켜도 다른 두 출처는 갱신된다.
+10. 수동 갱신에서 한 Apify Actor 실행을 실패시켜도 다른 두 출처는 갱신된다.
 11. 운영자가 요청하지 않으면 공지 수집이 자동 실행되지 않으며, 일반 사용자는 갱신을 시작할 수 없다.
 12. Supabase secret key가 브라우저 번들과 GitHub 저장소에 포함되지 않는다.
 
@@ -516,7 +516,7 @@ C의 역할은 코딩 보조가 아니라 데이터 정확성과 시연 성공�
 ### 13–18시간: 공지 수집
 
 - Supabase 테이블, RLS, 읽기 정책
-- 세 사이트별 Octoparse 작업
+- 세 사이트별 Apify Actor 실행
 - 최근 7일 필터
 - 마지막 갱신 시각과 실패 보존
 - 수동 갱신과 Supabase 반영 검증
@@ -570,7 +570,7 @@ C의 역할은 코딩 보조가 아니라 데이터 정확성과 시연 성공�
 
 | 위험 | 대응 |
 | --- | --- |
-| 기관 홈페이지 HTML 구조가 서로 다름 | 출처별 Octoparse 작업 3개로 분리 |
+| 기관 홈페이지 HTML 구조가 서로 다름 | 출처별 Apify Actor 실행 3개로 분리 |
 | 발표 당일 기관 사이트 장애 | Supabase의 마지막 성공 결과 유지 |
 | 크롤러 한 개가 전체 실행을 중단 | 출처별 독립 실행과 개별 오류 기록 |
 | 휴대폰 사진 용량이 큼 | 클라이언트 압축 후 IndexedDB 저장 |
@@ -588,7 +588,7 @@ C의 역할은 코딩 보조가 아니라 데이터 정확성과 시연 성공�
 2. 장소를 선택해 소개와 최근 공지로 이동할 수 있다.
 3. 사진 촬영 또는 사진 선택 후 장소별 고유 캐릭터를 획득할 수 있다.
 4. 획득 기록과 인증사진이 같은 기기의 도감에 유지된다.
-5. 운영자가 요청하면 세 기관의 최근 공지를 Octoparse로 수집해 Supabase에 반영할 수 있다.
+5. 운영자가 요청하면 세 기관의 최근 공지를 Apify로 수집해 Supabase에 반영할 수 있다.
 6. 공지 수집 실패 시 마지막 성공 결과와 갱신 시각을 보여준다.
 7. 서비스가 Vercel에 배포되고 Chrome에서 PWA로 설치된다.
 

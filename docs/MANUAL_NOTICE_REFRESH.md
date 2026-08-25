@@ -6,15 +6,15 @@ Codex에서 이 프로젝트를 연 뒤 다음과 같이 요청한다.
 
 ```text
 공지 갱신해줘.
-Octoparse의 library, language-center, industry-center 작업을 실행하고,
+Apify의 library, language-center, industry-center Actor 실행을 요청하고,
 성공한 결과만 Supabase에 반영한 뒤 출처별 건수와 표본을 알려줘.
 ```
 
 이 요청을 받으면 Codex는 다음 순서로 작업해야 한다.
 
-1. Octoparse 플러그인 연결을 확인한다.
+1. Apify MCP 연결을 확인한다.
 2. Supabase 플러그인의 대상 프로젝트를 확인한다.
-3. Octoparse 작업 세 개를 각각 시작한다.
+3. Apify Actor 실행 세 개를 각각 시작한다.
 4. 각 작업이 실제 완료될 때까지 상태를 확인한다.
 5. 제목, 게시일, 원문 URL과 출처 ID를 검증한다.
 6. 성공한 출처만 Supabase `notices`에 반영한다.
@@ -24,10 +24,10 @@ Octoparse의 library, language-center, industry-center 작업을 실행하고,
 
 ## 실행 전에 필요한 것
 
-- Octoparse API key가 Octoparse 플러그인 연결에 등록되어 있어야 한다.
-- Octoparse 플러그인이 현재 Codex 세션의 도구 목록에 보여야 한다.
+- Apify OAuth 또는 API token이 Apify MCP 연결에 등록되어 있어야 한다.
+- Apify MCP 도구가 현재 Codex 세션의 도구 목록에 보여야 한다.
 - Supabase 플러그인이 올바른 프로젝트에 연결되어 있어야 한다.
-- Octoparse에 아래 작업 세 개가 존재해야 한다.
+- Apify에 아래 출처별 Actor 실행 구성이 존재해야 한다.
 
 | 작업 이름 | 공지 출처 |
 | --- | --- |
@@ -35,14 +35,14 @@ Octoparse의 library, language-center, industry-center 작업을 실행하고,
 | `language-center` | 충남대학교 국제언어교육센터 |
 | `industry-center` | 충남대학교 산학연교육연구관 |
 
-키는 채팅, Git, `.env.example`에 적지 않는다. Octoparse 플러그인 연결 화면의 비밀 자격증명으로만 보관한다.
+토큰은 채팅, Git, `.env.example`에 적지 않는다. Apify OAuth 연결 또는 비밀 자격증명으로만 보관한다.
 
-## Octoparse에서 먼저 직접 실행하는 방법
+## Apify Console에서 먼저 직접 실행하는 방법
 
-Octoparse 화면에서 세 작업의 실행 버튼을 직접 눌러도 된다. 세 작업이 끝난 뒤 Codex에 다음처럼 요청한다.
+Apify Console에서 세 Actor를 직접 실행해도 된다. 세 실행이 끝난 뒤 Codex에 다음처럼 요청한다.
 
 ```text
-Octoparse에서 공지 작업 세 개를 실행했어.
+Apify에서 공지 Actor 실행 세 개를 완료했어.
 완료된 결과를 확인해서 성공한 출처만 Supabase에 반영해줘.
 ```
 
@@ -59,14 +59,14 @@ Octoparse에서 공지 작업 세 개를 실행했어.
 - 마지막 성공 갱신 시각: YYYY-MM-DD HH:mm KST
 ```
 
-`작업 시작 요청이 접수됨`은 성공이 아니다. Octoparse 결과가 준비되고 Supabase 저장값까지 확인되어야 성공이다.
+`Actor 실행 요청이 접수됨`은 성공이 아니다. Apify dataset 결과가 준비되고 Supabase 저장값까지 확인되어야 성공이다.
 
 ## 실패했을 때
 
 - 한 출처가 실패해도 다른 성공 출처는 반영한다.
 - 실패 출처의 기존 공지는 삭제하지 않는다.
 - 날짜나 원문 URL이 잘못된 행은 저장하지 않는다.
-- 재시도 전에 Octoparse가 알려준 대기 시간이나 사용자 조치가 있는지 확인한다.
+- 재시도 전에 Apify가 알려준 대기 시간이나 사용자 조치가 있는지 확인한다.
 - 키가 보이지 않거나 플러그인이 연결되지 않았으면 작업을 성공으로 처리하지 않는다.
 
 ## 발표 전 권장 순서

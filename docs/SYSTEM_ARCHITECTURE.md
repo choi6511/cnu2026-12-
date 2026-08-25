@@ -20,7 +20,7 @@
 서비스를 두 부분으로 생각하면 쉽다.
 
 1. **탐방과 캐릭터 수집**: 지도에서 장소를 고르고 사진을 제출한다. 사진과 캐릭터 획득 기록은 그 휴대폰에만 저장한다.
-2. **공지 모음**: 운영자가 갱신을 요청하면 Octoparse가 세 학교 홈페이지에서 공지 제목·날짜·링크를 모으고, Codex가 결과를 Supabase에 반영한다. 앱은 저장된 결과를 읽어 보여준다.
+2. **공지 모음**: 운영자가 갱신을 요청하면 Apify Actor가 세 학교 홈페이지에서 공지 제목·날짜·링크를 모으고, Codex가 결과를 Supabase에 반영한다. 앱은 저장된 결과를 읽어 보여준다.
 
 사진을 서버에 올리지 않고 로그인도 만들지 않는 것이 이 구조의 가장 중요한 단순화다.
 
@@ -40,7 +40,7 @@ flowchart LR
     KAKAO[카카오맵 API\n지도와 마커]
     OP[운영자\n공지 갱신 요청]
     CODEX[Codex\n결과 검증·반영]
-    OCTO[Octoparse\n수동 작업 3개]
+    APIFY[Apify MCP\n수동 Actor 실행 3개]
     SITES[학교 공지 홈페이지 3곳]
     DB[(Supabase\n공지 · 수집 실행 기록)]
 
@@ -61,8 +61,8 @@ flowchart LR
 
 - 인증사진은 `휴대폰 IndexedDB`에서 끝난다. Vercel이나 Supabase로 보내지 않는다.
 - 브라우저는 Supabase의 공개 읽기 권한만 사용한다.
-- Supabase 쓰기와 Octoparse 실행은 연결된 플러그인을 통해 운영자가 요청한 때만 수행한다.
-- 학교 홈페이지 크롤링은 브라우저나 앱 서버가 아니라 Octoparse가 수행한다.
+- Supabase 쓰기와 Apify Actor 실행은 연결된 MCP를 통해 운영자가 요청한 때만 수행한다.
+- 학교 홈페이지 크롤링은 브라우저나 앱 서버가 아니라 Apify가 수행한다.
 
 ## 3. 왜 이 구조가 이 프로젝트에 적합한가
 
@@ -111,7 +111,7 @@ flowchart LR
 | Service Worker | 오프라인용 임시 안내원 | 앱 셸과 정적 소개·캐릭터 자산 캐시 | 지도 타일과 최신 공지 캐시 |
 | 카카오맵 API | 외부 지도 공급자 | 지도와 세 고정 마커 표시 | GPS 방문 판정 |
 | 공개 Supabase 클라이언트 | 읽기 전용 창구 | 공지와 마지막 성공 갱신 시각 조회 | 추가·수정·삭제 |
-| Octoparse 작업 3개 | 홈페이지별 수집 담당자 | 서로 다른 HTML에서 제목·날짜·링크 추출 | Supabase 직접 공개 쓰기 |
+| Apify Actor 실행 3개 | 홈페이지별 수집 담당자 | 서로 다른 HTML에서 제목·날짜·링크 추출 | Supabase 직접 공개 쓰기 |
 | Codex 수동 갱신 흐름 | 운영자가 부르는 정리 담당자 | 작업 시작, 완료 대기, 결과 검증, Supabase 반영 | 자동 예약 실행 |
 | Supabase | 공용 공지 창고 | `notices`, `crawl_runs` 저장과 읽기 권한 제어 | 사용자·사진·도감 저장 |
 | Vercel | 앱이 실제로 사는 곳 | HTTPS 배포와 공개 환경변수 | 공지 자동 예약, 장기 사진 보관 |
@@ -183,7 +183,7 @@ sequenceDiagram
 sequenceDiagram
     actor Operator as 운영자
     participant Codex as Codex
-    participant Octo as Octoparse
+    participant Apify as Apify MCP
     participant Sites as 학교 홈페이지 3곳
     participant DB as Supabase
 
@@ -206,7 +206,7 @@ sequenceDiagram
 
 - 운영자가 `공지 갱신해줘`라고 명시적으로 요청할 때만 실행한다.
 - 일반 앱 화면에는 갱신 버튼이나 비밀 키를 넣지 않는다.
-- Octoparse 작업 세 개는 서로 독립적으로 시작하고 결과를 따로 판정한다.
+- Apify Actor 실행 세 개는 서로 독립적으로 시작하고 결과를 따로 판정한다.
 - 성공한 출처만 upsert한다. 실패한 출처의 기존 공지는 지우지 않는다.
 - 날짜를 해석하지 못한 항목은 저장하지 않고 실패 원인을 기록한다.
 - 페이지 HTML 전체를 DB에 저장하지 않는다.
@@ -272,7 +272,7 @@ src/
     notices/
       types.ts                       # NoticeInput 등 공통 계약
       date-kst.ts                    # KST 7일 경계와 날짜 변환
-      validate-import.ts             # Octoparse 결과 검증용 순수 함수
+      validate-import.ts             # Apify 결과 검증용 순수 함수
     supabase/
       public.ts                      # 공개 읽기 전용
       server.ts                      # 서버 비밀 키 전용
@@ -283,7 +283,7 @@ public/
   characters/                        # 장소별 캐릭터 이미지
   icons/                             # 192/512 PWA 아이콘
 tests/
-  fixtures/notices/                  # Octoparse 결과 JSON 검증 자료
+  fixtures/notices/                  # Apify 결과 JSON 검증 자료
 supabase/
   migrations/                        # 재현 가능한 DB 변경 기록
 ```
@@ -320,7 +320,7 @@ Next.js에서는 파일이 브라우저에 전달되는지 서버에서만 실�
 - `SUPABASE_SECRET_KEY` 사용
 - 공지 upsert와 `crawl_runs` 쓰기
 
-MVP의 기본 수동 흐름에서는 이 작업을 Supabase 플러그인이 맡는다. 나중에 서버 import 기능을 추가하더라도 학교 HTML을 직접 파싱하지 않고 Octoparse 결과만 입력으로 받는다. 서버 전용 파일에는 `server-only` 경계를 적용하고 Client Component에서 import되지 않도록 테스트한다.
+MVP의 기본 수동 흐름에서는 이 작업을 Supabase 플러그인이 맡는다. 나중에 서버 import 기능을 추가하더라도 학교 HTML을 직접 파싱하지 않고 Apify 결과만 입력으로 받는다. 서버 전용 파일에는 `server-only` 경계를 적용하고 Client Component에서 import되지 않도록 테스트한다.
 
 ### 양쪽에서 쓸 수 있는 것
 
@@ -393,16 +393,16 @@ Service Worker는 카카오맵, Supabase 응답, `/api/**`를 장기 캐시하�
 ### 절대 브라우저로 보내면 안 되는 값
 
 - `SUPABASE_SECRET_KEY`
-- `OCTOPARSE_API_KEY`
+- `APIFY_API_TOKEN`
 
 보안 규칙:
 
-1. Octoparse API key는 Octoparse 플러그인 연결 자격증명에 두고, Supabase 쓰기 권한은 Supabase 플러그인 연결로 사용한다.
+1. Apify API token은 Apify MCP OAuth 또는 연결 자격증명에 두고, Supabase 쓰기 권한은 Supabase 플러그인 연결로 사용한다.
 2. `.env.example`에는 변수명과 설명만 두고 실제 값을 넣지 않는다.
-3. `SUPABASE_SECRET_KEY`와 `OCTOPARSE_API_KEY`를 `NEXT_PUBLIC_` 이름으로 만들지 않는다.
+3. `SUPABASE_SECRET_KEY`와 `APIFY_API_TOKEN`을 `NEXT_PUBLIC_` 이름으로 만들지 않는다.
 4. 공개 키로 두 테이블의 INSERT·UPDATE·DELETE가 거부되는지 실제 테스트한다.
 5. 공개 키로 `crawl_runs.status = 'failed'` 행과 `error_message`를 읽을 수 없는지 테스트한다.
-6. 운영자의 명시적 요청이 없으면 Octoparse 작업과 Supabase 쓰기를 실행하지 않는다.
+6. 운영자의 명시적 요청이 없으면 Apify Actor 실행과 Supabase 쓰기를 실행하지 않는다.
 7. 인증사진은 네트워크 요청의 body, 로그, 분석 도구에 포함하지 않는다.
 8. 공지 원문 링크는 `http` 또는 `https`의 허용된 출처에서 온 정상 URL인지 검증한다.
 
@@ -416,7 +416,7 @@ Service Worker는 카카오맵, Supabase 응답, `/api/**`를 장기 캐시하�
 | 저장 공간 부족 | 공간 확보 후 재시도 안내 | 캐릭터를 지급하지 않음 |
 | Supabase 읽기 실패 | 공지 조회 오류 안내 | 지도·인증·도감은 정상 동작 |
 | 학교 사이트 한 곳 실패 | 이전 성공 공지를 유지 | 나머지 두 출처는 계속 갱신 |
-| Octoparse 연결 실패 | 기존 공지와 마지막 성공 시각 표시 | Supabase 데이터를 바꾸지 않고 재연결 안내 |
+| Apify 연결 실패 | 기존 공지와 마지막 성공 시각 표시 | Supabase 데이터를 바꾸지 않고 재연결 안내 |
 | 날짜 파싱 실패 | 해당 항목 제외 | 출처와 원인을 실행 로그에 기록 |
 | 오프라인 | 화면별 맞춤 안내 | 정적 소개·인증·도감은 계속 사용 |
 
@@ -430,8 +430,8 @@ flowchart LR
     GH --> V[Vercel 빌드·배포]
     V --> PROD[HTTPS PWA]
     V --> ENV[Vercel 환경변수]
-    OP[운영자 수동 요청] --> OCTO[Octoparse]
-    OCTO --> SB[(Supabase)]
+    OP[운영자 수동 요청] --> APIFY[Apify]
+    APIFY --> SB[(Supabase)]
     SB --> PROD
 ```
 
@@ -443,14 +443,14 @@ flowchart LR
 | Vercel Preview | PR별 임시 주소 | 공개 키, 빌드, 화면 회귀 |
 | Production | 고정 HTTPS 주소 | 카카오 허용 도메인, 공개 키, PWA 설치 |
 
-공지 데이터 갱신은 Vercel 배포와 분리한다. 운영자가 Octoparse와 Supabase 플러그인으로 수동 갱신한 뒤 Production 공지 화면에서 새 결과를 확인한다.
+공지 데이터 갱신은 Vercel 배포와 분리한다. 운영자가 Apify와 Supabase 플러그인으로 수동 갱신한 뒤 Production 공지 화면에서 새 결과를 확인한다.
 
 운영 중 최소 확인 항목:
 
 - 출처별 마지막 성공 시각
 - 출처별 가장 최근 실패와 오류 범주
 - 한 번의 수집 건수
-- Octoparse 작업 상태와 내보낸 행 수
+- Apify Actor 실행 상태와 dataset 행 수
 - Supabase 테이블 증가량
 
 별도 모니터링 제품은 MVP에 추가하지 않는다. `crawl_runs`와 Vercel/Supabase 기본 로그로 충분히 확인한다.
@@ -463,8 +463,8 @@ flowchart LR
 | --- | --- | --- |
 | 단위 테스트 | 순수 함수 | KST 7일 경계, 날짜 형식 2종, URL 절대화, 이미지 크기 계산 |
 | 저장소 테스트 | IndexedDB | 최초 저장, 중복 방지, Blob 읽기, 저장 실패 |
-| 결과 검증 테스트 | 저장된 Octoparse JSON fixture | 세 출처 제목·날짜·링크 검증, 잘못된 날짜 제외 |
-| 수동 통합 테스트 | Octoparse·Supabase 플러그인 | 한 출처 실패 격리, 성공 출처만 upsert, 실행 결과 보고 |
+| 결과 검증 테스트 | 저장된 Apify JSON fixture | 세 출처 제목·날짜·링크 검증, 잘못된 날짜 제외 |
+| 수동 통합 테스트 | Apify·Supabase 플러그인 | 한 출처 실패 격리, 성공 출처만 upsert, 실행 결과 보고 |
 | 권한 테스트 | Supabase RLS | anon 읽기 성공, anon 쓰기 실패, 서버 쓰기 성공 |
 | 브라우저 테스트 | 사용자 흐름 | 지도→장소→사진→획득→도감, 새로고침, 중복 인증 |
 | 실기기 테스트 | 모바일·PWA | 카메라/사진첩, 설치, 오프라인, 세로 화면 2분 시연 |
@@ -480,7 +480,7 @@ flowchart LR
 | A03 | Supabase는 공지와 수집 기록만 저장 | 공용 데이터만 서버에 둠 | 새 서버 데이터가 PRD 범위인지 |
 | A04 | 장소 데이터는 타입이 있는 정적 파일 | 장소가 세 개로 고정 | 장소가 동적으로 늘어나는 요구가 생겼는지 |
 | A05 | 공지는 공개 Supabase 클라이언트로 읽음 | 별도 읽기 API 없이 RLS로 안전하게 단순화 | 서버 중계가 필요한 보안·캐시 요구가 생겼는지 |
-| A06 | Octoparse 작업을 출처별로 3개 분리 | HTML과 날짜 형식이 다름 | 공통화가 실제 결과 검증을 깨지 않는지 |
+| A06 | Apify Actor 실행을 출처별로 3개 분리 | HTML과 날짜 형식이 다름 | 공통화가 실제 결과 검증을 깨지 않는지 |
 | A07 | 출처는 서로 독립 실행 | 한 사이트 실패가 전체 갱신을 막지 않음 | 실패 보존 요구를 계속 만족하는지 |
 | A08 | PWA 오프라인은 소개·인증·도감만 | 지도와 공지는 네트워크 의존 | 오래된 데이터를 최신처럼 보이지 않는지 |
 | A09 | 인증 성공은 IndexedDB 저장 후 표시 | 가짜 성공 방지 | 저장 실패 테스트가 유지되는지 |
@@ -517,12 +517,12 @@ flowchart LR
 | Next.js 앱 | W00 완료, `package.json`과 검사 명령 존재 | W00 유지 |
 | 화면·지도·인증·도감 | W01–W08 구현, 프로덕션 P0 흐름 브라우저 검증 완료 | W14–W15에서 재검증 |
 | Supabase 스키마 | 세 번째 RLS 마이그레이션까지 원격 적용, anon 읽기·쓰기 거부와 Security Advisor 확인 완료. 브라우저/서버 클라이언트와 KST 7일 유틸리티 구현·테스트 완료 | W11 수동 반영, W12 읽기 UI 사용 |
-| Octoparse 수동 갱신 | 플러그인은 연결됐지만 사용자 정의 작업 생성 API/기존 작업이 없어 W10 blocked | 콘솔에서 작업 3개 생성 후 W10–W11 재개 |
+| Apify 수동 갱신 | 사용자 요청으로 Octoparse를 대체했으며 Apify MCP 연결 대기 | MCP 연결 후 세 출처 Actor 실행과 W10–W11 재개 |
 | 공지 UI | W12에서 장소별 공개 Supabase 읽기·최근 7일·상태 UI 구현 중 | W12 검증 후 완료 |
 | PWA·오프라인 | W13에서 manifest·Service Worker·정적 경로 오프라인 기반 구현 중 | HTTPS 설치·실기기 오프라인 검증과 W14 통합 |
 | 프로덕션 통합 | 아직 없음 | W14–W15 |
 
-현재 가장 앞선 미완료 작업은 최신 개발일지와 실제 저장소 상태를 다시 확인해 판단한다. 2026-08-25 기준 W10은 Octoparse 사용자 정의 작업 생성 제약으로 `blocked`이며, W11은 이를 기다린다. W12는 W09만 선행하면 독립적으로 가능한 예외 작업으로 진행 중이다.
+현재 가장 앞선 미완료 작업은 최신 개발일지와 실제 저장소 상태를 다시 확인해 판단한다. 2026-08-25 기준 W10은 Apify MCP 연결과 세 출처 Actor 실행 구성을 기다리며, W11은 이를 기다린다. W12는 W09만 선행하면 독립적으로 가능한 예외 작업으로 진행 중이다.
 
 ## 20. 아직 사람이 정해야 하거나 확인해야 하는 것
 
