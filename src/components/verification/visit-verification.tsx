@@ -242,6 +242,7 @@ export function VisitVerification({
       {completion === "created" ? (
         <AcquisitionDialog
           characterImagePath={characterImagePath}
+          onDismiss={() => setCompletion(null)}
           placeName={placeName}
         />
       ) : null}

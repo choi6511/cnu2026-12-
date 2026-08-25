@@ -114,9 +114,14 @@ export function CollectionGallery() {
   return (
     <section aria-labelledby="collection-grid-title" className="collection-panel">
       <div className="collection-progress">
-        <p className="screen-kicker">탐방 진행도</p>
-        <h2 id="collection-grid-title">3개 중 {acquiredCount}개 획득</h2>
-        <p>인증사진과 획득 기록은 이 기기에만 저장됩니다.</p>
+        <div>
+          <p className="screen-kicker">CHA-CHA COLLECTION</p>
+          <h2 id="collection-grid-title">3개 중 {acquiredCount}개 획득</h2>
+          <p>인증사진과 획득 기록은 이 기기에만 저장됩니다.</p>
+        </div>
+        <span className="collection-progress-count" aria-hidden="true">
+          {acquiredCount}/3
+        </span>
       </div>
 
       {loadState === "loading" ? (
