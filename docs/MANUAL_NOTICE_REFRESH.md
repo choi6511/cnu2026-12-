@@ -85,3 +85,15 @@ Apify에서 공지 Actor 실행 세 개를 완료했어.
 | 발표 직전에 상태를 보면서 실행 가능 | 실패해도 늦게 발견할 수 있음 |
 | Cron API와 예약 설정이 필요 없음 | Vercel Cron과 서버 API가 필요함 |
 | 이번 해커톤 MVP 방식 | MVP 이후 선택 기능 |
+
+## 2026-08-25 재실행 검증 기록
+
+W11 운영 절차를 확인하기 위해 세 출처를 동시에 독립 실행했다. 각 실행은 Apify에서 `SUCCEEDED`로 끝났지만, 이번 목록 페이지 응답은 신규 구조화 공지 행을 반환하지 않아 신규 반영은 하지 않았다. 기존 `notices`와 마지막 성공 기록은 삭제·교체하지 않는다.
+
+| 출처 | Apify run ID | dataset | 결과 | 반영 원칙 |
+| --- | --- | --- | --- | --- |
+| library | `uxqgIrxPfeNj9rXO2` | `zXlIyfL0mLaZR8gZr` | 1개 페이지 응답, 신규 행 0건 | 기존 공지 유지 |
+| language-center | `xf1PL0LUH5AwPaBdK` | `EPDAlcYhvD8lByrn3` | 0건 | 기존 공지 유지 |
+| industry-center | `cgF42XqLaTTy4R1Ng` | `Aab0XBoHRTvyZyoLF` | 0건 | 기존 공지 유지 |
+
+이 기록은 `SUCCEEDED` 상태만으로 저장 성공이라고 판단하지 않고, dataset 행을 정규화·검증한 뒤 정상 행이 있을 때만 upsert해야 한다는 W11 완료 조건을 검증한다.
