@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 
+import { PlaceNoticeList } from "@/components/notices/place-notice-list";
+
 import { resolvePlace } from "../_lib/resolve-place";
 
 type NoticesPageProps = Readonly<{
@@ -16,12 +18,13 @@ export default async function NoticesPage({ params }: NoticesPageProps) {
   const place = await resolvePlace(params);
 
   return (
-    <main className="screen-card">
-      <p className="screen-kicker">최근 공지 경로</p>
-      <h1>{place.shortName} 최근 공지</h1>
-      <p className="screen-description">
-        최근 7일 공지와 마지막 갱신 시각은 W12에서 연결합니다.
-      </p>
+    <main className="notice-page">
+      <header className="notice-page-heading">
+        <p className="screen-kicker">장소별 최근 공지</p>
+        <h1>{place.shortName} 최근 공지</h1>
+        <p>오늘을 포함한 최근 7일 동안 등록된 공지만 보여드려요.</p>
+      </header>
+      <PlaceNoticeList placeId={place.id} placeName={place.shortName} />
     </main>
   );
 }

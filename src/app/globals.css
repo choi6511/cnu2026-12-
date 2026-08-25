@@ -366,6 +366,123 @@ h2 {
   box-shadow: var(--shadow-sm);
 }
 
+.notice-page {
+  display: grid;
+  gap: 18px;
+  padding: 24px 20px 40px;
+}
+
+.notice-page-heading,
+.notice-panel,
+.notice-panel-heading {
+  display: grid;
+  gap: 10px;
+}
+
+.notice-page-heading h1,
+.notice-page-heading p,
+.notice-panel-heading h2,
+.notice-refresh-status,
+.notice-empty,
+.notice-state p {
+  margin: 0;
+}
+
+.notice-page-heading > p:last-child,
+.notice-refresh-status {
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+.notice-panel,
+.notice-state {
+  padding: 20px;
+  border: 1px solid var(--gray-200);
+  border-radius: 24px;
+  background: var(--surface);
+  box-shadow: var(--shadow-sm);
+}
+
+.notice-refresh-status {
+  padding: 10px 12px;
+  border-radius: 14px;
+  background: var(--teal-050);
+  font-size: 0.82rem;
+}
+
+.notice-list {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.notice-list a {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 6px 12px;
+  align-items: start;
+  padding: 16px;
+  border: 1px solid var(--gray-200);
+  border-radius: 16px;
+  color: var(--navy-900);
+  text-decoration: none;
+}
+
+.notice-list a:hover {
+  border-color: var(--teal-500);
+  background: var(--teal-050);
+}
+
+.notice-list span:first-child {
+  font-weight: 800;
+  line-height: 1.5;
+}
+
+.notice-list small {
+  color: var(--text-muted);
+  font-size: 0.75rem;
+  line-height: 1.6;
+  white-space: nowrap;
+}
+
+.notice-list strong {
+  grid-column: 1 / -1;
+  color: var(--teal-500);
+  font-size: 0.8rem;
+}
+
+.notice-empty,
+.notice-state {
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+.notice-state-offline {
+  color: var(--navy-900);
+  background: var(--teal-050);
+}
+
+.notice-state-error {
+  display: grid;
+  gap: 12px;
+  color: #8b1e1e;
+  background: #fff0f0;
+}
+
+.notice-retry-button {
+  width: fit-content;
+  min-height: 42px;
+  padding: 9px 15px;
+  border: 2px solid var(--navy-900);
+  border-radius: 999px;
+  color: var(--navy-900);
+  background: var(--surface);
+  font-weight: 800;
+  cursor: pointer;
+}
+
 .verification-page {
   display: grid;
   gap: 14px;
