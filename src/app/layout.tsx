@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import type { ReactNode } from "react";
 
 import { BottomNavigation } from "@/components/layout/bottom-navigation";
+import { ServiceWorkerRegistration } from "@/components/pwa/service-worker-registration";
 
 import "./globals.css";
 
@@ -31,6 +32,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
           <div className="app-content">{children}</div>
           <BottomNavigation />
         </div>
+        <ServiceWorkerRegistration />
       </body>
     </html>
   );
