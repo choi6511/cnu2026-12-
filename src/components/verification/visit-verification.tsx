@@ -15,7 +15,6 @@ import {
 } from "@/lib/browser/image-processing";
 
 type VisitVerificationProps = Readonly<{
-  characterImagePath: string;
   placeId: PlaceId;
   placeName: string;
 }>;
@@ -43,7 +42,6 @@ function errorMessage(error: unknown): string {
 }
 
 export function VisitVerification({
-  characterImagePath,
   placeId,
   placeName,
 }: VisitVerificationProps) {
@@ -241,8 +239,8 @@ export function VisitVerification({
 
       {completion === "created" ? (
         <AcquisitionDialog
-          characterImagePath={characterImagePath}
           onDismiss={() => setCompletion(null)}
+          placeId={placeId}
           placeName={placeName}
         />
       ) : null}

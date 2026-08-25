@@ -1,11 +1,10 @@
 import Link from "next/link";
 import Image from "next/image";
 
+import { ChachaMascot } from "@/components/brand/chacha-mascot";
 import { CampusMap } from "@/components/map/campus-map";
 import { PLACES } from "@/data/places";
 import { publicEnvironment } from "@/lib/env/public";
-
-import mascotFront from "../../CHA-CHA)Design System/assets/mascot-front.png";
 
 export default function HomePage() {
   return (
@@ -39,7 +38,7 @@ export default function HomePage() {
           </a>
         </div>
         <div className="hero-mascot" aria-hidden="true">
-          <Image alt="" priority src={mascotFront} />
+          <ChachaMascot priority variant="front" />
         </div>
       </header>
 

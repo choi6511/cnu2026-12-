@@ -26,7 +26,6 @@ export default async function VerifyPage({ params }: VerifyPageProps) {
         처리합니다. 사진 내용으로 장소를 판별하지 않습니다.
       </p>
       <VisitVerification
-        characterImagePath={place.characterImagePath}
         placeId={place.id}
         placeName={place.shortName}
       />
