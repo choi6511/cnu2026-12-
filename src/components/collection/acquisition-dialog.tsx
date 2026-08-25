@@ -2,18 +2,55 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { useEffect, useRef } from "react";
 
 import { CHARACTER_IMAGE_SIZE } from "@/data/places";
 
 type AcquisitionDialogProps = Readonly<{
   characterImagePath: string;
+  onDismiss: () => void;
   placeName: string;
 }>;
 
 export function AcquisitionDialog({
   characterImagePath,
+  onDismiss,
   placeName,
 }: AcquisitionDialogProps) {
+  const dialogRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const dialog = dialogRef.current;
+    dialog?.querySelector<HTMLElement>("button, a[href]")?.focus();
+
+    function handleKeyDown(event: KeyboardEvent) {
+      if (event.key === "Escape") {
+        onDismiss();
+        return;
+      }
+
+      if (event.key !== "Tab" || !dialog) return;
+
+      const focusable = Array.from(
+        dialog.querySelectorAll<HTMLElement>("button, a[href]"),
+      );
+      const first = focusable[0];
+      const last = focusable.at(-1);
+      if (!first || !last) return;
+
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    }
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [onDismiss]);
+
   return (
     <div className="acquisition-dialog-backdrop" role="presentation">
       <section
@@ -21,10 +58,20 @@ export function AcquisitionDialog({
         aria-labelledby="acquisition-title"
         aria-modal="true"
         className="acquisition-dialog"
+        ref={dialogRef}
         role="dialog"
       >
-        <p className="screen-kicker">새로운 탐방 기록</p>
-        <h2 id="acquisition-title">새 캐릭터를 획득했어요!</h2>
+        <button
+          aria-label="획득 안내 닫기"
+          className="acquisition-dismiss"
+          onClick={onDismiss}
+          type="button"
+        >
+          닫기
+        </button>
+        <p className="acquisition-label">✦ NEW CHARACTER</p>
+        <p className="screen-kicker">방문 인증 완료</p>
+        <h2 id="acquisition-title">새 캐릭터를 획득했어요</h2>
         <div className="acquisition-character">
           <Image
             alt={`${placeName} 캐릭터`}
