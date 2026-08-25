@@ -365,6 +365,141 @@ h2 {
   box-shadow: var(--shadow-sm);
 }
 
+.verification-page {
+  display: grid;
+  gap: 14px;
+  padding: 24px 20px 40px;
+}
+
+.verification-panel {
+  display: grid;
+  gap: 18px;
+  margin-top: 8px;
+  padding: 20px;
+  border: 1px solid var(--gray-200);
+  border-radius: 24px;
+  background: var(--surface);
+  box-shadow: var(--shadow-sm);
+}
+
+.verification-heading {
+  display: grid;
+  gap: 8px;
+}
+
+.verification-heading h2,
+.verification-heading p {
+  margin: 0;
+}
+
+.verification-heading p:last-child {
+  color: var(--text-muted);
+  line-height: 1.65;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.photo-input-grid,
+.verification-actions {
+  display: grid;
+  gap: 10px;
+}
+
+.photo-input-button,
+.verification-button {
+  display: grid;
+  min-height: 48px;
+  place-items: center;
+  padding: 12px 18px;
+  border: 2px solid var(--navy-900);
+  border-radius: 999px;
+  color: var(--surface);
+  background: var(--navy-900);
+  font-weight: 800;
+  text-align: center;
+  cursor: pointer;
+}
+
+.photo-input-button.secondary,
+.verification-button.secondary {
+  color: var(--navy-900);
+  background: var(--surface);
+}
+
+.photo-input-button:focus-within,
+.photo-input-button:has(+ input:focus-visible) {
+  outline: 2px solid var(--teal-500);
+  outline-offset: 3px;
+  box-shadow: var(--focus-ring);
+}
+
+.verification-button:disabled,
+.photo-input-button:has(+ input:disabled) {
+  border-color: var(--gray-200);
+  color: var(--text-muted);
+  background: var(--gray-100);
+  cursor: not-allowed;
+}
+
+.photo-preview {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+}
+
+.photo-preview-image {
+  overflow: hidden;
+  border: 2px solid var(--navy-900);
+  border-radius: 20px;
+  background: var(--gray-100);
+}
+
+.photo-preview-image img {
+  display: block;
+  width: 100%;
+  max-height: 420px;
+  object-fit: contain;
+}
+
+.photo-preview figcaption {
+  display: grid;
+  gap: 3px;
+  color: var(--text-muted);
+  font-size: 0.82rem;
+}
+
+.photo-preview strong {
+  color: var(--navy-900);
+}
+
+.verification-message {
+  margin: 0;
+  padding: 12px 14px;
+  border-radius: 14px;
+  color: var(--navy-900);
+  background: var(--teal-050);
+  line-height: 1.55;
+}
+
+.verification-message.error {
+  color: #8b1e1e;
+  background: #fff0f0;
+}
+
+.verification-message.success {
+  color: #145c39;
+  background: #eaf8f0;
+}
+
 .place-detail {
   display: grid;
   gap: 28px;
@@ -565,6 +700,11 @@ h2 {
   }
 
   .screen-actions {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .photo-input-grid,
+  .verification-actions {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
