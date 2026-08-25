@@ -39,6 +39,7 @@ type KakaoMapsApi = {
   ) => KakaoMarkerInstance;
   CustomOverlay: new (
     options: Readonly<{
+      clickable: boolean;
       content: HTMLElement;
       map: KakaoMapInstance;
       position: KakaoLatLng;

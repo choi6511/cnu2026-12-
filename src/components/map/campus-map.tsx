@@ -147,6 +147,7 @@ export function CampusMap({ mapKey, places }: CampusMapProps) {
           label.addEventListener("click", navigateToPlace);
 
           const overlay = new kakaoMaps.CustomOverlay({
+            clickable: true,
             content: label,
             map,
             position,
