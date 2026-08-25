@@ -1,9 +1,7 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 
+import { ChachaMascot } from "@/components/brand/chacha-mascot";
 import { CollectionGallery } from "@/components/collection/collection-gallery";
-
-import mascotTogether from "../../../CHA-CHA)Design System/assets/pose-together.png";
 
 export const metadata: Metadata = {
   title: "캐릭터 도감",
@@ -19,7 +17,7 @@ export default function CollectionPage() {
           캠퍼스에서 만난 차차 캐릭터와 인증사진을 이 기기에서 확인합니다.
         </p>
         <figure aria-hidden="true" className="collection-brand-mascot">
-          <Image alt="" priority src={mascotTogether} />
+          <ChachaMascot priority variant="together" />
         </figure>
       </header>
       <CollectionGallery />

@@ -4,7 +4,10 @@ import Image from "next/image";
 import { useEffect, useMemo, useState } from "react";
 
 import {
-  CHARACTER_IMAGE_SIZE,
+  ChachaMascot,
+  mascotVariantForPlace,
+} from "@/components/brand/chacha-mascot";
+import {
   PLACES,
   type Place,
   type PlaceId,
@@ -155,12 +158,10 @@ export function CollectionGallery() {
                 type="button"
               >
                 <span className="collection-character">
-                  <Image
+                  <ChachaMascot
                     alt=""
-                    height={CHARACTER_IMAGE_SIZE.height}
                     sizes="(max-width: 720px) 28vw, 180px"
-                    src={place.characterImagePath}
-                    width={CHARACTER_IMAGE_SIZE.width}
+                    variant={mascotVariantForPlace(place.id)}
                   />
                 </span>
                 <strong>{place.shortName}</strong>
