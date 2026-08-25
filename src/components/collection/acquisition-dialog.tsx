@@ -6,6 +6,8 @@ import { useEffect, useRef } from "react";
 
 import { CHARACTER_IMAGE_SIZE } from "@/data/places";
 
+import faceCheer from "../../../CHA-CHA)Design System/assets/face-cheer.png";
+
 type AcquisitionDialogProps = Readonly<{
   characterImagePath: string;
   onDismiss: () => void;
@@ -69,6 +71,9 @@ export function AcquisitionDialog({
         >
           닫기
         </button>
+        <span aria-hidden="true" className="acquisition-brand-face">
+          <Image alt="" src={faceCheer} />
+        </span>
         <p className="acquisition-label">✦ NEW CHARACTER</p>
         <p className="screen-kicker">방문 인증 완료</p>
         <h2 id="acquisition-title">새 캐릭터를 획득했어요</h2>

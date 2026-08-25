@@ -5,7 +5,7 @@ import { CampusMap } from "@/components/map/campus-map";
 import { PLACES } from "@/data/places";
 import { publicEnvironment } from "@/lib/env/public";
 
-import mascotRunning from "../../CHA-CHA)Design System/assets/pose-running.png";
+import mascotFront from "../../CHA-CHA)Design System/assets/mascot-front.png";
 
 export default function HomePage() {
   return (
@@ -15,6 +15,7 @@ export default function HomePage() {
           alt="충남대학교 캠퍼스의 도서관 전경"
           className="campus-hero-image"
           fill
+          loading="eager"
           priority
           sizes="(max-width: 720px) 100vw, 720px"
           src="/places/library.jpg"
@@ -38,7 +39,7 @@ export default function HomePage() {
           </a>
         </div>
         <div className="hero-mascot" aria-hidden="true">
-          <Image alt="" priority src={mascotRunning} />
+          <Image alt="" priority src={mascotFront} />
         </div>
       </header>
 
