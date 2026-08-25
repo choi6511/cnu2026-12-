@@ -119,7 +119,9 @@ export function CollectionGallery() {
       <div className="collection-progress">
         <div>
           <p className="screen-kicker">CHA-CHA COLLECTION</p>
-          <h2 id="collection-grid-title">3개 중 {acquiredCount}개 획득</h2>
+          <h2 id="collection-grid-title" aria-live="polite">
+            3개 중 {acquiredCount}개 획득
+          </h2>
           <p>인증사진과 획득 기록은 이 기기에만 저장됩니다.</p>
         </div>
         <span className="collection-progress-count" aria-hidden="true">
@@ -147,6 +149,7 @@ export function CollectionGallery() {
 
             return record ? (
               <button
+                aria-label={`${place.shortName} 캐릭터 획득 완료. 인증사진 보기`}
                 aria-expanded={isSelected}
                 className="collection-slot acquired"
                 key={place.id}
