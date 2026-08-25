@@ -1,20 +1,23 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef } from "react";
 
-import { CHARACTER_IMAGE_SIZE } from "@/data/places";
+import {
+  ChachaMascot,
+  mascotVariantForPlace,
+} from "@/components/brand/chacha-mascot";
+import type { PlaceId } from "@/data/places";
 
 type AcquisitionDialogProps = Readonly<{
-  characterImagePath: string;
   onDismiss: () => void;
+  placeId: PlaceId;
   placeName: string;
 }>;
 
 export function AcquisitionDialog({
-  characterImagePath,
   onDismiss,
+  placeId,
   placeName,
 }: AcquisitionDialogProps) {
   const dialogRef = useRef<HTMLElement>(null);
@@ -69,17 +72,18 @@ export function AcquisitionDialog({
         >
           닫기
         </button>
+        <span aria-hidden="true" className="acquisition-brand-face">
+          <ChachaMascot variant="cheer-face" />
+        </span>
         <p className="acquisition-label">✦ NEW CHARACTER</p>
         <p className="screen-kicker">방문 인증 완료</p>
         <h2 id="acquisition-title">새 캐릭터를 획득했어요</h2>
         <div className="acquisition-character">
-          <Image
-            alt={`${placeName} 캐릭터`}
-            height={CHARACTER_IMAGE_SIZE.height}
+          <ChachaMascot
+            alt={`${placeName} 차차 캐릭터`}
             priority
             sizes="(max-width: 720px) min(76vw, 320px), 320px"
-            src={characterImagePath}
-            width={CHARACTER_IMAGE_SIZE.width}
+            variant={mascotVariantForPlace(placeId)}
           />
         </div>
         <p id="acquisition-description">

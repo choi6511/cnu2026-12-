@@ -25,7 +25,7 @@ export default async function PlacePage({ params }: PlacePageProps) {
 
   return (
     <main className="place-detail">
-      <figure className="place-hero">
+      <figure className="place-hero cinematic-place-hero">
         <div className="place-hero-image">
           <Image
             alt={place.placeImageAlt}
@@ -36,12 +36,17 @@ export default async function PlacePage({ params }: PlacePageProps) {
             width={PLACE_IMAGE_SIZE.width}
           />
         </div>
+        <div className="place-hero-scrim" aria-hidden="true" />
+        <div className="place-hero-title" aria-hidden="true">
+          <span>SCENE / {place.id.toUpperCase()}</span>
+          <strong>{place.shortName}</strong>
+        </div>
         {place.placeImageStatus === "placeholder" ? (
           <figcaption>임시 대표 이미지 · 실제 장소 사진으로 교체 예정</figcaption>
         ) : null}
       </figure>
 
-      <section className="place-detail-heading" aria-labelledby="place-title">
+      <section className="place-detail-heading cinematic-detail-heading" aria-labelledby="place-title">
         <p className="screen-kicker">충남대학교 장소 탐방</p>
         <h1 id="place-title">{place.shortName}</h1>
       </section>

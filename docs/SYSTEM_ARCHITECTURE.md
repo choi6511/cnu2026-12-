@@ -382,6 +382,8 @@ type NoticeInput = {
 
 Service Worker는 카카오맵, Supabase 응답, `/api/**`를 장기 캐시하지 않는다. 새 배포가 오래된 캐시에 가려지지 않도록 업데이트 전략과 실제 Chrome 검증을 W13에서 확정한다.
 
+W13의 구현은 `public/sw.js`에 둔다. 설치 시 앱 셸, 세 장소 소개·인증 경로, 캐릭터·장소 이미지와 오프라인 안내 페이지를 미리 저장한다. 같은 출처의 GET 요청은 네트워크 우선으로 갱신하고, 네트워크가 없을 때만 이 캐시를 사용한다. 이 방식은 새 배포가 캐시에 영구히 가려지는 것을 피하면서, 카카오맵 타일·Supabase 응답·외부 학교 공지에는 개입하지 않는다. 공지 navigation은 캐시하지 않고 항상 전용 offline 안내로 fallback한다. `PwaRegistration`은 production 브라우저에서만 Service Worker를 등록하고, 지원 브라우저에는 설치 버튼을, iOS에는 수동 설치 안내를 보여 준다. 오프라인의 same-origin Link는 document navigation으로 바꿔 cached route 또는 전용 fallback을 안정적으로 연다.
+
 ## 13. 보안과 개인정보 경계
 
 ### 공개되어도 되는 값
@@ -519,7 +521,7 @@ flowchart LR
 | Supabase 스키마 | 세 번째 RLS 마이그레이션까지 원격 적용, anon 읽기·쓰기 거부와 Security Advisor 확인 완료. 브라우저/서버 클라이언트와 KST 7일 유틸리티 구현·테스트 완료 | W11 수동 반영, W12 읽기 UI 사용 |
 | Apify 수동 갱신 | Apify MCP로 세 출처 Actor 실행, 실제 결과 fixture 검증 및 30건 Supabase 반영 완료 | 다음 운영자 요청 때 동일 절차로 새 데이터 upsert |
 | 공지 UI | W12에서 장소별 공개 Supabase 읽기·최근 7일·상태 UI 구현 중 | W12 검증 후 완료 |
-| PWA·오프라인 | W13에서 manifest·Service Worker·정적 경로 오프라인 기반 구현 중 | HTTPS 설치·실기기 오프라인 검증과 W14 통합 |
+| PWA·오프라인 | W13 manifest·192/512 PNG icons, production Service Worker, static chunk precache, offline Link navigation과 map/notice fallback을 구현했다. | HTTPS 설치·실기기 오프라인·새 배포 갱신 검증과 W14 통합 |
 | 프로덕션 통합 | 아직 없음 | W14–W15 |
 
 현재 가장 앞선 미완료 작업은 최신 개발일지와 실제 저장소 상태를 다시 확인해 판단한다. 2026-08-25 기준 W10은 세 출처 Actor 실행·fixture 검증을 완료했고, 수동 갱신의 실제 반영도 한 차례 검증됐다. W11의 반복 가능한 운영 절차 정리와 W12의 실제 데이터 화면 검증이 다음 우선순위다.
