@@ -186,7 +186,7 @@ Octoparse API·MCP 연결에는 API key와 계정 권한이 필요할 수 있다
 
 브라우저에는 publishable key만 전달한다. `SUPABASE_SECRET_KEY` 또는 service role key는 브라우저 코드, Git, 로그에 들어가면 안 된다.
 
-현재 적용된 `20260825102516_create_notice_data_foundation.sql`의 공개 정책은 실패한 `crawl_runs`도 읽을 수 있다. W09 후속 마이그레이션에서 `status = 'success'` 행만 공개하도록 바꾸고 다음을 Supabase 플러그인으로 확인한다.
+현재 적용된 `20260825102516_create_notice_data_foundation.sql`의 공개 정책은 실패한 `crawl_runs`도 읽을 수 있다. 후속 마이그레이션 `supabase/migrations/20260825154500_restrict_crawl_runs_public_read_to_success.sql`을 작성해 `status = 'success'` 행만 공개하도록 정책을 교체했지만, 현재 세션에서는 Supabase 플러그인 인증이 되지 않아 원격 프로젝트에 아직 적용하지 못했다. 플러그인이 연결되면 적용 전에 이 파일을 우선 실행하고 다음을 Supabase 플러그인으로 확인한다.
 
 1. `anon` 공지 SELECT 성공
 2. `anon` 공지 INSERT·UPDATE·DELETE 실패
@@ -212,7 +212,9 @@ Supabase는 새 테이블을 Data API에 자동 공개하지 않는 방향으로
 | 항목 | 현재 상태 | 다음 행동 |
 | --- | --- | --- |
 | Supabase 프로젝트 | 생성됨 | 세션마다 Supabase 플러그인으로 대상 프로젝트 재확인 |
-| `notices`, `crawl_runs` | 마이그레이션 적용됨 | W09 나머지 권한·클라이언트·날짜 검증 |
+| `notices`, `crawl_runs` | 최초 마이그레이션 2개 적용됨. 실패 실행 비공개 후속 마이그레이션은 파일로 작성됐으나 미적용 | Supabase 플러그인 연결 후 후속 마이그레이션 적용과 Advisor 재확인 |
+| 브라우저/서버 Supabase 클라이언트 | `src/lib/supabase/public.ts`, `src/lib/supabase/server.ts` 구현 완료 | 실제 원격 프로젝트 연결 후 anon 읽기·쓰기 거부 브라우저 검증 |
+| KST 최근 7일 경계 유틸리티 | `src/lib/notices/date-kst.ts`와 자동 테스트 완료 | W12 공지 조회 화면에서 사용 |
 | 회원·Auth | 없음 | PRD가 바뀌지 않는 한 만들지 않음 |
 | 사용자 행동로그 | 없음 | 제품 요구가 없으므로 만들지 않음 |
 | Octoparse 플러그인 | 현재 세션에서 찾지 못함 | 설치·연결 후 세 출처 작업 생성과 실행 검증 |
@@ -239,8 +241,9 @@ Octoparse를 아직 연결하지 못했으므로 공지 크롤링 완료로 판�
 
 ## 11. 실제 마이그레이션
 
-- `supabase/migrations/20260825102516_create_notice_data_foundation.sql`
-- `supabase/migrations/20260825103200_restrict_notice_service_role_privileges.sql`
+- `supabase/migrations/20260825102516_create_notice_data_foundation.sql` (원격 적용됨)
+- `supabase/migrations/20260825103200_restrict_notice_service_role_privileges.sql` (원격 적용됨)
+- `supabase/migrations/20260825154500_restrict_crawl_runs_public_read_to_success.sql` (파일 작성 완료, Supabase 플러그인 연결 전까지 원격 미적용)
 
 이미 적용된 마이그레이션 파일은 덮어쓰지 않는다. 변경은 새 후속 마이그레이션으로 만들고 Supabase 플러그인에서 실제 적용 결과와 Advisor를 확인한다.
 

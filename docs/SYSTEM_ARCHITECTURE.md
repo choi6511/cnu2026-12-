@@ -516,7 +516,7 @@ flowchart LR
 | Git 저장소 | 생성됨, `main` 브랜치 | GitHub 연결과 지속 배포 |
 | Next.js 앱 | 아직 없음, `package.json` 없음 | W00에서 생성 |
 | 화면·지도·인증·도감 | 아직 없음 | W01–W08 |
-| Supabase 스키마 | 두 마이그레이션과 원격 적용 완료. 현재 anon이 실패 실행도 읽을 수 있음 | W09에서 성공 실행만 공개하도록 후속 마이그레이션하고 클라이언트·날짜 작업 완료 |
+| Supabase 스키마 | 두 마이그레이션 원격 적용 완료. 실패 실행을 비공개로 바꾸는 세 번째 마이그레이션은 파일로 작성됐으나 Supabase 플러그인 미인증으로 원격 미적용. 브라우저/서버 클라이언트(`src/lib/supabase/`)와 KST 7일 유틸리티(`src/lib/notices/date-kst.ts`)는 구현·테스트 완료 | Supabase 플러그인 연결 후 세 번째 마이그레이션 적용, anon 권한 재검증, Security Advisor 확인 |
 | Octoparse 수동 갱신 | 플러그인이 현재 세션에 보이지 않아 미구현 | 연결 후 W10–W11에서 작업 3개와 Supabase 반영 검증 |
 | 공지 UI | 아직 없음 | W12 |
 | PWA·오프라인 | 아직 없음 | W13 |
