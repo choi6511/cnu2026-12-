@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 
+import { PlaceCollectionStatus } from "@/components/collection/place-collection-status";
 import { PLACE_IMAGE_SIZE } from "@/data/places";
 
 import { resolvePlace } from "./_lib/resolve-place";
@@ -68,8 +69,8 @@ export default async function PlacePage({ params }: PlacePageProps) {
       <aside className="collection-status" aria-label="캐릭터 획득 상태">
         <span className="collection-status-mark" aria-hidden="true" />
         <div>
-          <strong>캐릭터 미획득</strong>
-          <p>방문 인증 기능이 연결되면 이곳에서 획득 상태를 확인할 수 있습니다.</p>
+          <PlaceCollectionStatus placeId={place.id} />
+          <p>방문 인증을 완료하면 이 기기의 도감에 기록됩니다.</p>
         </div>
       </aside>
 

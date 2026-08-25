@@ -500,6 +500,222 @@ h2 {
   background: #eaf8f0;
 }
 
+.acquisition-dialog-backdrop {
+  position: fixed;
+  z-index: 40;
+  inset: 0;
+  display: grid;
+  place-items: end center;
+  padding: 20px;
+  background: rgb(0 45 114 / 42%);
+}
+
+.acquisition-dialog {
+  display: grid;
+  width: min(100%, 440px);
+  gap: 14px;
+  padding: 24px;
+  border-radius: 28px;
+  background: var(--surface);
+  box-shadow: var(--shadow-md);
+  animation: acquisition-enter 280ms cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+.acquisition-dialog h2,
+.acquisition-dialog p {
+  margin: 0;
+}
+
+.acquisition-dialog > p:last-of-type {
+  color: var(--text-muted);
+  line-height: 1.65;
+}
+
+.acquisition-character {
+  display: grid;
+  min-height: 180px;
+  place-items: center;
+  border: 1px dashed var(--teal-200);
+  border-radius: 24px;
+  background: var(--teal-050);
+}
+
+.acquisition-character img {
+  width: min(76vw, 320px);
+  height: auto;
+  object-fit: contain;
+}
+
+.acquisition-actions {
+  display: grid;
+  gap: 10px;
+}
+
+.collection-panel {
+  display: grid;
+  gap: 18px;
+  margin: 0 20px 32px;
+  padding: 20px;
+  border: 1px solid var(--gray-200);
+  border-radius: 24px;
+  background: var(--surface);
+  box-shadow: var(--shadow-sm);
+}
+
+.collection-progress {
+  display: grid;
+  gap: 6px;
+}
+
+.collection-progress h2,
+.collection-progress p {
+  margin: 0;
+}
+
+.collection-progress > p:last-child,
+.collection-data-note,
+.selected-photo-panel p {
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+.collection-message,
+.collection-data-note {
+  margin: 0;
+  padding: 12px 14px;
+  border-radius: 14px;
+  background: var(--teal-050);
+}
+
+.collection-message.error {
+  color: #8b1e1e;
+  background: #fff0f0;
+}
+
+.collection-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.collection-slot {
+  display: grid;
+  min-width: 0;
+  min-height: 218px;
+  align-content: start;
+  justify-items: center;
+  gap: 6px;
+  padding: 12px 8px;
+  border: 2px solid var(--navy-900);
+  border-radius: 18px;
+  color: var(--navy-900);
+  background: var(--surface);
+  text-align: center;
+}
+
+button.collection-slot {
+  cursor: pointer;
+}
+
+button.collection-slot:hover {
+  background: var(--teal-050);
+  transform: translateY(-2px);
+}
+
+.collection-slot.acquired[aria-expanded="true"] {
+  border-color: var(--teal-500);
+  box-shadow: var(--focus-ring);
+}
+
+.collection-character {
+  display: grid;
+  width: 100%;
+  height: 112px;
+  place-items: center;
+}
+
+.collection-character img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.collection-slot strong {
+  font-size: 0.82rem;
+  overflow-wrap: anywhere;
+}
+
+.collection-slot small,
+.collection-slot-hint {
+  color: var(--text-muted);
+  font-size: 0.7rem;
+  line-height: 1.35;
+}
+
+.collection-slot-hint {
+  color: var(--teal-500);
+  font-weight: 800;
+}
+
+.locked-silhouette {
+  display: grid;
+  width: 76px;
+  height: 112px;
+  align-content: center;
+  justify-items: center;
+  gap: 4px;
+  filter: drop-shadow(0 6px 0 rgb(0 45 114 / 8%));
+}
+
+.locked-silhouette span:first-child {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: var(--navy-900);
+}
+
+.locked-silhouette span:last-child {
+  width: 76px;
+  height: 58px;
+  border-radius: 44px 44px 18px 18px;
+  background: var(--navy-900);
+}
+
+.selected-photo-panel {
+  display: grid;
+  gap: 12px;
+  padding: 16px;
+  border: 1px solid var(--teal-200);
+  border-radius: 20px;
+  background: var(--teal-050);
+}
+
+.selected-photo-panel h3,
+.selected-photo-panel p {
+  margin: 0;
+}
+
+.selected-photo-panel img {
+  width: 100%;
+  max-height: 360px;
+  border: 2px solid var(--navy-900);
+  border-radius: 16px;
+  background: var(--surface);
+  object-fit: contain;
+}
+
+@keyframes acquisition-enter {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.96);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
 .place-detail {
   display: grid;
   gap: 28px;
@@ -704,7 +920,8 @@ h2 {
   }
 
   .photo-input-grid,
-  .verification-actions {
+  .verification-actions,
+  .acquisition-actions {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
@@ -715,5 +932,9 @@ h2 {
   *::after {
     scroll-behavior: auto !important;
     transition-duration: 0.01ms !important;
+  }
+
+  .acquisition-dialog {
+    animation: none;
   }
 }

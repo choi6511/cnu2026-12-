@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useEffect, useRef, useState, type ChangeEvent } from "react";
 
 import type { PlaceId } from "@/data/places";
+import { AcquisitionDialog } from "@/components/collection/acquisition-dialog";
 import {
   CollectionStorageError,
   saveCollectionRecordOnce,
@@ -14,6 +15,7 @@ import {
 } from "@/lib/browser/image-processing";
 
 type VisitVerificationProps = Readonly<{
+  characterImagePath: string;
   placeId: PlaceId;
   placeName: string;
 }>;
@@ -41,6 +43,7 @@ function errorMessage(error: unknown): string {
 }
 
 export function VisitVerification({
+  characterImagePath,
   placeId,
   placeName,
 }: VisitVerificationProps) {
@@ -209,12 +212,6 @@ export function VisitVerification({
         </p>
       ) : null}
 
-      {completion === "created" ? (
-        <p className="verification-message success" role="status">
-          인증이 완료됐어요. {placeName} 캐릭터를 처음 획득했습니다.
-        </p>
-      ) : null}
-
       {completion === "existing" ? (
         <p className="verification-message" role="status">
           이미 획득한 장소예요. 처음 저장한 사진과 획득일을 그대로 유지했습니다.
@@ -241,6 +238,13 @@ export function VisitVerification({
           {isSaving ? "저장 중..." : "인증 완료"}
         </button>
       </div>
+
+      {completion === "created" ? (
+        <AcquisitionDialog
+          characterImagePath={characterImagePath}
+          placeName={placeName}
+        />
+      ) : null}
     </section>
   );
 }

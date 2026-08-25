@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 
+import { CollectionGallery } from "@/components/collection/collection-gallery";
+
 export const metadata: Metadata = {
   title: "캐릭터 도감",
 };
@@ -11,16 +13,10 @@ export default function CollectionPage() {
         <p className="eyebrow">캐릭터 도감 (COLLECTION)</p>
         <h1>캐릭터 도감</h1>
         <p className="page-description">
-          획득 기록과 세 개의 고정 슬롯은 W06에서 연결합니다.
+          캠퍼스에서 만난 차차 캐릭터와 인증사진을 이 기기에서 확인합니다.
         </p>
       </header>
-      <section className="screen-card" aria-labelledby="collection-status-title">
-        <p className="screen-kicker">구현 상태</p>
-        <h2 id="collection-status-title">도감 경로를 준비했습니다</h2>
-        <p className="screen-description">
-          이 화면은 아직 기기 저장소를 읽거나 캐릭터 획득 상태를 표시하지 않습니다.
-        </p>
-      </section>
+      <CollectionGallery />
     </main>
   );
 }
