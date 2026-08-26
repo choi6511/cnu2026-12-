@@ -72,11 +72,10 @@ export default async function PlacePage({ params }: PlacePageProps) {
       </section>
 
       <aside className="collection-status" aria-label="캐릭터 획득 상태">
-        <span className="collection-status-mark" aria-hidden="true" />
-        <div>
-          <PlaceCollectionStatus placeId={place.id} />
-          <p>방문 인증을 완료하면 이 기기의 도감에 기록됩니다.</p>
-        </div>
+        <PlaceCollectionStatus
+          characterImagePath={place.characterImagePath}
+          placeId={place.id}
+        />
       </aside>
 
       <nav className="screen-actions" aria-label={`${place.shortName} 다음 단계`}>

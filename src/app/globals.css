@@ -1004,11 +1004,27 @@ button.collection-slot:hover {
 }
 
 .collection-status-mark {
+  position: relative;
+  display: grid;
   width: 44px;
   height: 44px;
+  overflow: hidden;
+  place-items: center;
   border: 2px dashed var(--text-muted);
   border-radius: 999px;
   background: var(--surface);
+}
+
+.collection-status-mark.is-acquired {
+  border-style: solid;
+  background: var(--surface);
+}
+
+.collection-status-mark img {
+  width: 100%;
+  height: 100%;
+  padding: 3px;
+  object-fit: contain;
 }
 
 .collection-status strong {
@@ -1690,6 +1706,10 @@ button.collection-slot:hover {
 .place-detail .collection-status-mark {
   border-color: var(--teal-200);
   background: var(--teal-500);
+}
+
+.place-detail .collection-status-mark.is-acquired {
+  background: var(--surface);
 }
 
 .place-detail .button-link {
