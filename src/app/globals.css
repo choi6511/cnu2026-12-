@@ -30,7 +30,10 @@ body {
   color: var(--text);
   background: var(--gray-050);
   font-family:
+    "Pretendard Variable",
     Pretendard,
+    "Noto Sans KR",
+    "Malgun Gothic",
     -apple-system,
     BlinkMacSystemFont,
     "Segoe UI",
@@ -90,16 +93,17 @@ button:focus-visible {
 }
 
 h1,
-h2,
-p {
-  overflow-wrap: anywhere;
-}
-
-h1,
 h2 {
   margin: 0;
   color: var(--navy-900);
   letter-spacing: -0.035em;
+  overflow-wrap: normal;
+  word-break: keep-all;
+}
+
+p {
+  overflow-wrap: normal;
+  word-break: keep-all;
 }
 
 h1 {
@@ -1289,12 +1293,16 @@ button.collection-slot:hover {
 }
 
 .campus-hero h1 {
-  max-width: 9.5ch;
   color: var(--surface);
-  font-size: clamp(3.3rem, 16vw, 6.2rem);
-  line-height: 0.94;
-  letter-spacing: -0.075em;
-  text-wrap: balance;
+  font-size: clamp(2.8rem, 10vw, 4.8rem);
+  line-height: 1.08;
+  letter-spacing: -0.045em;
+}
+
+.campus-hero h1 span,
+.campus-hero h1 em {
+  display: block;
+  white-space: nowrap;
 }
 
 .campus-hero h1 em {
@@ -1303,7 +1311,7 @@ button.collection-slot:hover {
 }
 
 .campus-hero-content > p:not(.hero-pill, .hero-index) {
-  max-width: 27ch;
+  max-width: 30ch;
   margin: 0;
   color: rgb(255 255 255 / 88%);
   font-size: 0.95rem;
@@ -1729,6 +1737,7 @@ button.collection-slot:hover {
 
 @media (min-width: 721px) {
   .campus-hero-content { padding-right: 56px; padding-left: 56px; }
+  .campus-hero h1 { font-size: clamp(3.5rem, 7vw, 4.8rem); }
   .hero-mascot { right: 34px; width: 210px; }
   .cinematic-section, .map-sequence { padding-right: 36px; padding-left: 36px; }
   .cinematic-place-list { grid-template-columns: repeat(3, 1fr); }

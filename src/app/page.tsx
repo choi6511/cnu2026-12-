@@ -24,7 +24,8 @@ export default function HomePage() {
           <p className="hero-pill">✦ CAMPUS QUEST</p>
           <p className="hero-index">01 / 03</p>
           <h1>
-            오늘의 캠퍼스를<br />
+            <span>오늘의</span>
+            <span>캠퍼스를</span>
             <em>발견합니다</em>
           </h1>
           <p>
