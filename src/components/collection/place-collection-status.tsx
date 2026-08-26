@@ -1,19 +1,20 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Image from "next/image";
 
+import {
+  ChachaMascot,
+  mascotVariantForPlace,
+} from "@/components/brand/chacha-mascot";
 import type { PlaceId } from "@/data/places";
 import { hasCollectionRecord } from "@/lib/browser/collection-db";
 
 type PlaceCollectionStatusProps = Readonly<{
   placeId: PlaceId;
-  characterImagePath: string;
 }>;
 
 export function PlaceCollectionStatus({
   placeId,
-  characterImagePath,
 }: PlaceCollectionStatusProps) {
   const [status, setStatus] = useState<"loading" | "acquired" | "locked" | "error">(
     "loading",
@@ -55,7 +56,11 @@ export function PlaceCollectionStatus({
         aria-hidden="true"
       >
         {isAcquired ? (
-          <Image alt="" fill sizes="44px" src={characterImagePath} />
+          <ChachaMascot
+            alt=""
+            sizes="44px"
+            variant={mascotVariantForPlace(placeId)}
+          />
         ) : null}
       </span>
       <div>

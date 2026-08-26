@@ -73,7 +73,6 @@ export default async function PlacePage({ params }: PlacePageProps) {
 
       <aside className="collection-status" aria-label="캐릭터 획득 상태">
         <PlaceCollectionStatus
-          characterImagePath={place.characterImagePath}
           placeId={place.id}
         />
       </aside>
