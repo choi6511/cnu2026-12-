@@ -97,3 +97,15 @@ W11 운영 절차를 확인하기 위해 세 출처를 동시에 독립 실행�
 | industry-center | `cgF42XqLaTTy4R1Ng` | `Aab0XBoHRTvyZyoLF` | 0건 | 기존 공지 유지 |
 
 이 기록은 `SUCCEEDED` 상태만으로 저장 성공이라고 판단하지 않고, dataset 행을 정규화·검증한 뒤 정상 행이 있을 때만 upsert해야 한다는 W11 완료 조건을 검증한다.
+
+## 2026-08-25 구조화 갱신 성공 기록
+
+Apify Web Scraper의 구조화 Page Function으로 세 목록 페이지에서 `title`, `published_at`, `original_url`, `scraped_at`만 추출했다. Codex가 출처 도메인·날짜 형식·오류 행을 검증한 뒤 정상 행 48건만 Supabase에 upsert하고, 각 출처의 `crawl_runs` 성공 로그를 남겼다.
+
+| 출처 | Apify run ID | dataset | 추출·반영 | 완료 시각 (KST) |
+| --- | --- | --- | --- | --- |
+| library | `tj72NqJosZwBVYkEx` | `aGdIxg6vIvOAnFCyi` | 15건 / 15건 | 2026-08-25 22:45:06 |
+| language-center | `RQkDqHN6wDlqXbm8t` | `6v3b7V0bM9jQlewWV` | 21건 / 21건 | 2026-08-25 22:43:37 |
+| industry-center | `VE3gzFFONFkfurXB5` | `EB2aXuBU5bXSVjr0S` | 12건 / 12건 | 2026-08-25 22:44:31 |
+
+Supabase 확인 결과는 `notices`가 출처별 15·21·12건이고, 해당 세 `crawl_runs`의 `item_count`도 각각 15·21·12건이다. Security Advisor의 security lint는 0건이었다.
